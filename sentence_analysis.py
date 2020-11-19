@@ -9,7 +9,18 @@ class WFST():
         self._tokens, self._n_tokens = self._tokenize(sentence)
 
 
-    def _parse(self, trace=False):
+    def display(self, trace=False):
+        wfst = self._parse(trace)
+        print('\nWFST ' +
+              ' '.join(('%-4d' % i) for i in range(1, self._n_tokens+1)))
+        for i in range(self._n_tokens):
+            print('%d   ' % i, end=' ')
+            for j in range(1, self._n_tokens+1):
+                print('%-4s' % (wfst[i][j] or '.'), end=' ')
+            print()
+
+
+    def _parse(self, trace):
         index = dict((p.rhd(), p.lhs()) for p in self.grammar.productions())
         table = self._build_table()
         for span in range(2, self._n_tokens+1):
