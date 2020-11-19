@@ -10,6 +10,7 @@ class WFST():
 
 
     def display(self, trace=False):
+        print(' '.join(self._tokens), end='.\n')
         wfst = self._parse(trace)
         print('\nWFST ' +
               ' '.join(('%-4d' % i) for i in range(1, self._n_tokens+1)))
@@ -21,7 +22,7 @@ class WFST():
 
 
     def _parse(self, trace):
-        index = dict((p.rhd(), p.lhs()) for p in self.grammar.productions())
+        index = dict((p.rhs(), p.lhs()) for p in self.grammar.productions())
         table = self._build_table()
         for span in range(2, self._n_tokens+1):
             for start in range(self._n_tokens+1-span):
@@ -53,10 +54,9 @@ class WFST():
 
 def main():
     grammar = nltk.data.load('file:grammar.cfg')
-    sentence = 'Mary saw a dog'.split()
-    sr_parser = nltk.ShiftReduceParser(grammar, trace=2)
-    for tree in sr_parser.parse(sentence):
-        print(tree)
+    sentence = 'I shot an elephant in my pajamas'
+    wfst = WFST(sentence, grammar)
+    wfst.display(trace=True)
 
 
 if __name__ == '__main__':
