@@ -5,8 +5,18 @@ import nltk
 class WFST():
 
     def __init__(self, sentence, grammar):
-        tokens, n_tokens = self._tokenize(sentence)
-        table = self._build_table(tokens, n)
+        self.grammar = grammar
+        self._tokens, self._n_tokens = self._tokenize(sentence)
+        self._table = self._build_table()
+
+
+    def _build_table(self):
+        table = [[None for i in range(self._n_tokens+1)]
+                 for j in range(self._n_tokens+1)]
+        for i in range(self._n_tokens):
+            productions = self.grammar.productions(rhs=self._tokens[i])
+            table[i][i+1] = productions[0].lhs()
+        return table
 
 
     def _tokenize(self, sentence):
