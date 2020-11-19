@@ -7,7 +7,23 @@ class WFST():
     def __init__(self, sentence, grammar):
         self.grammar = grammar
         self._tokens, self._n_tokens = self._tokenize(sentence)
-        self._table = self._build_table()
+
+
+    def _parse(self, trace=False):
+        index = dict((p.rhd(), p.lhs()) for p in self.grammar.productions())
+        table = self._build_table()
+        for span in range(2, self._n_tokens+1):
+            for start in range(self._n_tokens+1-span):
+                end = start + span
+                for mid in range(start+1, end):
+                    nt1, nt2 = table[start][mid], table[mid][end]
+                    if nt1 and nt2 and (nt1, nt2) in index:
+                        table[start][end] = index[(nt1, nt2)]
+                        if trace:
+                            print('[%s] %3s [%s] %3s [%s] --> [%s] %3s [%s]' % \
+                                  (start, nt1, mid, nt2, end,
+                                   start, index[(nt1, nt2)], end))
+        return table
 
 
     def _build_table(self):
