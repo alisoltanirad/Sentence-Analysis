@@ -53,10 +53,7 @@ class WFST():
 
 
 def main():
-    grammar = nltk.data.load('file:grammar.cfg')
-    sentence = 'I shot an elephant in my pajamas'
-    wfst = WFST(sentence, grammar)
-    wfst.display(trace=True)
+    pass
 
 
 if __name__ == '__main__':
