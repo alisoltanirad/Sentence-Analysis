@@ -1,6 +1,5 @@
-# https://github.com/alisoltanirad/Sentence-Analysis.git
-# Dependencies: nltk
-import nltk
+# https://github.com/alisoltanirad/Sentence-Analysis
+
 
 class WFST():
 
@@ -50,11 +49,3 @@ class WFST():
     def _tokenize(self, sentence):
         tokens = sentence.split()
         return tokens, len(tokens)
-
-
-def main():
-    pass
-
-
-if __name__ == '__main__':
-    main()
